@@ -1,0 +1,36 @@
+{% extends "base_morador.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">➕ Fazer uma Nova Reserva</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Área Social:</label>
+            <select class="form-select" name="areaSocial" required>
+                {% for area in areaSocial %}
+                    <option value="{{ area.id }}">{{ area.nome }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Data:</label>
+            <input type="date" class="form-control" name="data" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Horário de Início:</label>
+            <input type="time" class="form-control" name="hora_inicio" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Horário de Fim:</label>
+            <input type="time" class="form-control" name="hora_fim" required>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">📌 Enviar Reserva</button>
+    </form>
+</div>
+{% endblock %}

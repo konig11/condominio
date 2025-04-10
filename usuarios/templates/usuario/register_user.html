@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register User</title>
+</head>
+<body>
+    <h2>Register User</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Name:</label>
+        <input type="text" name="nome" required><br><br>
+
+        <label>Password:</label>
+        <input type="password" name="senha" required><br><br>
+
+        <label>State:</label>
+        <input type="text" name="estado" required><br><br>
+        <label>Usuario:</label>
+        <input type="text" name="usuario" required><br><br>
+        
+        <button type="submit">Register</button>
+    </form>
+    <br>
+    <a href="{% url 'user_list' %}">Back to User List</a>
+</body>
+</html>

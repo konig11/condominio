@@ -1,0 +1,22 @@
+{% extends "base_morador.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">📅 Menu de Reservas</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            <a href="{% url 'reservar_area' %}" class="btn btn-success w-100 mb-3">➕ Fazer uma Nova Reserva</a>
+        </div>
+        <div class="col-md-6">
+            <a href="{% url 'minhas_reservas' %}" class="btn btn-primary w-100 mb-3">📋 Minhas Reservas</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{% url 'historico_reservas' %}" class="btn btn-secondary w-100 mb-3">📜 Histórico de Reservas</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

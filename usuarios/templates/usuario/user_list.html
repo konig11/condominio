@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+</head>
+<body>
+    <h2>User List</h2>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>State</th>
+            <th>Token</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.nome }}</td>
+            <td>{{ user.estado }}</td>
+            <td>{{ user.token }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="{% url 'register_user' %}">Register New User</a>
+</body>
+</html>

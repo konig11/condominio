@@ -1,0 +1,35 @@
+{% extends "base_admin.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Gestão de Moradores</h2>
+    <div class="row mt-4">
+        <!-- Criar Morador -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white text-center">
+                    <h5>Criar Morador</h5>
+                </div>
+                <div class="card-body text-center">
+                    <p>Cadastre um novo morador no sistema.</p>
+                    <a href="{% url 'criar_morador' %}" class="btn btn-success">Criar</a>
+                </div>
+            </div>
+        </div>
+
+      
+
+        <!-- Listar Moradores -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white text-center">
+                    <h5>Listar Moradores</h5>
+                </div>
+                <div class="card-body text-center">
+                    <p>Veja todos os moradores cadastrados.</p>
+                    <a href="{% url 'listar_moradores' %}" class="btn btn-primary">Listar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

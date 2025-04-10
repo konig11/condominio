@@ -1,0 +1,17 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center text-danger">🗑 Excluir Pagamento #{{ pagamento.id }}</h2>
+    <p class="text-center">Tem certeza de que deseja excluir o pagamento de <strong>MZN {{ pagamento.valor }}</strong> do morador <strong>{{ pagamento.morador.nome }}</strong>?</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger w-100">🗑 Confirmar Exclusão</button>
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="{% url 'listar_pagamentos' %}" class="btn btn-secondary">🔙 Cancelar</a>
+    </div>
+</div>
+{% endblock %}

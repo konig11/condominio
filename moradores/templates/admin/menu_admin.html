@@ -1,0 +1,45 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">Painel do Administrador</h1>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white text-center">
+                    <h5>Gestão de Moradores</h5>
+                </div>
+                <div class="card-body text-center">
+                    <p>Gerencie moradores cadastrados.</p>
+                    <a href="{% url 'menu_morador' %}" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white text-center">
+                    <h5>Gestão de Reservas</h5>
+                </div>
+                <div class="card-body text-center">
+                    <p>Controle reservas de espaços.</p>
+                    <a href="{% url 'gestao_reservas' %}" class="btn btn-success">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-danger text-white text-center">
+                    <h5>Gestão de Pagamentos</h5>
+                </div>
+                <div class="card-body text-center">
+                    <p>Gerencie pagamentos e mensalidades.</p>
+                    <a href="{% url 'saldo_condominio' %}" class="btn btn-danger">Acessar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

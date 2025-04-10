@@ -1,0 +1,123 @@
+{% extends template_name %}
+{% load static %}  <!-- Certifique-se de carregar os arquivos estáticos -->
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Card de Saldo Financeiro -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h2 class="mb-0">Saldo Financeiro do Condomínio</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-hover">
+                <tr>
+                    <th>Total Recebido:</th>
+                    <td class="text-success fw-bold">{{ recebimentos }} MZN</td>
+                </tr>
+                <tr>
+                    <th>Total Gasto:</th>
+                    <td class="text-danger fw-bold">{{ despesas }} MZN</td>
+                </tr>
+                <tr>
+                    <th>Saldo Atual:</th>
+                    <td class="{% if saldo >= 0 %}text-success{% else %}text-danger{% endif %} fw-bold">
+                        {{ saldo }} MZN
+                    </td>
+
+
+
+                </tr>
+            </table>
+           {% if request.user.is_staff %}
+    <a href="{% url 'adicionar_pagamento' %}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Registrar Novo Pagamento
+    </a>
+    <a href="{% url 'listar_pagamentos' %}" class="btn btn-secondary">
+        <i class="fas fa-list"></i> Listar Pagamentos
+    </a>
+{% endif %}
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                📊 Recebimentos vs. Despesas
+            </div>
+            <div class="card-body text-center">
+                <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning text-white">
+                🍕 Distribuição das Despesas
+            </div>
+            <div class="card-body text-center">
+                <div class="chart-container">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ajuste do CSS -->
+<style>
+    .chart-container {
+        width: 100%;
+        max-width: 400px; /* Define um tamanho máximo */
+        margin: auto; /* Centraliza */
+    }
+</style>
+
+<!-- Script do Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const recebimentos = {{ recebimentos|default:0 }};
+    const despesas = {{ despesas|default:0 }};
+    const categorias = JSON.parse('{{ categorias_json|safe }}');
+    const valores = JSON.parse('{{ valores_json|safe }}');
+
+    // Gráfico de Barras - Recebimentos vs. Despesas
+    new Chart(document.getElementById("barChart"), {
+        type: "bar",
+        data: {
+            labels: ["Recebimentos", "Despesas"],
+            datasets: [{
+                label: "Montante (MZN)",
+                data: [recebimentos, despesas],
+                backgroundColor: ["#198754", "#dc3545"]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false // Permite melhor ajuste do tamanho
+        }
+    });
+
+    // Gráfico de Pizza - Distribuição das Despesas
+    new Chart(document.getElementById("pieChart"), {
+        type: "pie",
+        data: {
+            labels: categorias,
+            datasets: [{
+                data: valores,
+                backgroundColor: ["#007bff", "#ffc107", "#dc3545", "#28a745", "#6f42c1"]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false // Evita que o gráfico fique exageradamente grande
+        }
+    });
+</script>
+
+
+{% endblock %}

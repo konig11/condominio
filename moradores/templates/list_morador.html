@@ -1,0 +1,31 @@
+{% extends "base_morador.html" %}
+
+{% block title %}Lista de Moradores{% endblock %}
+
+{% block content %}
+    <h2>Lista de Moradores</h2>
+    <a href="{% url 'morador_create' %}" class="btn btn-primary">Adicionar Morador</a>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Apartamento</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for morador in moradores %}
+            <tr>
+                <td>{{ morador.nome }}</td>
+                <td>{{ morador.apartamento }}</td>
+                <td>
+                    <a href="{% url 'morador_edit' morador.id %}" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="{% url 'morador_delete' morador.id %}" class="btn btn-sm btn-danger">Excluir</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="3">Nenhum morador cadastrado.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

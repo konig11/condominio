@@ -1,0 +1,31 @@
+{% extends "base_admin.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Gestão de Reservas</h2>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-white text-center">
+                    <h5>Reservas Pendentes</h5>
+                </div>
+                <div class="card-body text-center">
+                    <p>Veja todas as reservas que ainda aguardam aprovação.</p>
+                    <a href="{% url 'lista_reservas' %}" class="btn btn-warning">Ver Pendentes</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white text-center">
+                    <h5>Todas as Reservas</h5>
+                </div>
+                <div class="card-body text-center">
+                    <p>Veja todas as reservas registradas no sistema.</p>
+                    <a href="{% url 'listar_todas_reservas' %}" class="btn btn-primary">Ver Todas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

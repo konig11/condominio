@@ -1,0 +1,51 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">
+        ✏️ Editar 
+        {% if pagamento.is_despesa_condominio %}
+            Despesa do Condomínio
+        {% else %}
+            Pagamento do Morador
+        {% endif %}
+        #{{ pagamento.id }}
+    </h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Valor (MZN)</label>
+                    {{ form.valor }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Data do Pagamento</label>
+                    {{ form.data_pagamento }}
+                </div>
+
+                {% if pagamento.is_despesa_condominio %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Categoria da Despesa</label>
+                        {{ form.categoria }}
+                    </div>
+                {% else %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Morador</label>
+                        <input type="text" class="form-control" value="{{ pagamento.morador.nome }}" disabled>
+                    </div>
+                {% endif %}
+
+                <button type="submit" class="btn btn-success w-100">💾 Salvar Alterações</button>
+            </form>
+
+            <div class="text-center mt-3">
+                <a href="{% url 'listar_pagamentos' %}" class="btn btn-secondary">🔙 Voltar</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
