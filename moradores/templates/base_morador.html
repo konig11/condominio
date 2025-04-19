@@ -11,15 +11,14 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'menu_morador' %}">Sistema do Morador</a>
+            <a class="navbar-brand" href="{% url 'menu_morado' %}">Sistema do Morador</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Areas Sociais</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Condominio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Visitas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'menu_reservas'%}">Areas Sociais</a></li>
+                    {% comment %} <li class="nav-item"><a class="nav-link" href="{% url ''%}">Condominio</a></li> {% endcomment %}
                     
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
