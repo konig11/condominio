@@ -18,8 +18,8 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'menu_reservas'%}">Areas Sociais</a></li>
-                    {% comment %} <li class="nav-item"><a class="nav-link" href="{% url ''%}">Condominio</a></li> {% endcomment %}
-                    
+                    <li class="nav-item"><a class="nav-link" href="{% url 'pagamento_morador'%}">Pagamento</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'saldo_condominio'%}">Financeira</a></li>
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                     {% else %}

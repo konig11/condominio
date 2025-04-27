@@ -4,6 +4,40 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Reserva, AreaSocial
 from django.utils.timezone import now
+
+from django.contrib.auth.decorators import login_required
+from .models import Morador  # ou como estiver o nome
+from .forms import PagamentoForm
+
+@login_required
+def pagamento_morador(request):
+    try:
+        morador = request.user.morador  # ajusta isso conforme sua relação User-Morador
+    except Morador.DoesNotExist:
+        messages.error(request, "Você não está vinculado a um morador.")
+        return redirect('home')  # ou onde preferir
+
+    if request.method == "POST":
+        form = PagamentoForm(request.POST)
+        if form.is_valid():
+            pagamento = form.save(commit=False)
+            pagamento.morador = morador
+            pagamento.is_despesa_condominio = False
+            pagamento.save()
+            messages.success(request, "Pagamento registrado com sucesso!")
+            return redirect('pagamento_morador')  # ajusta para a página correta
+        else:
+            messages.error(request, "Erro ao registrar pagamento. Verifique os dados.")
+    else:
+        form = PagamentoForm()
+
+    # removemos os campos que não devem aparecer para o morador
+    form.fields.pop('morador', None)
+    form.fields.pop('is_despesa_condominio', None)
+
+    return render(request, 'pagamento_morador.html', {'form': form})
+
+
 @login_required
 def morador_list(request):
     moradores = Morador.objects.all()

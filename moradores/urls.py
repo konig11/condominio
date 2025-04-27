@@ -13,6 +13,7 @@ urlpatterns = [
     path("reservas/reservar-area/", views.reservar_area, name="reservar_area"),
     path("reservas/minhas-reservas/", views.minhas_reservas, name="minhas_reservas"),
     path('reservas/historico/', views.historico_reservas, name='historico_reservas'),
+    path('meu-pagamento/', views.pagamento_morador, name='pagamento_morador'),
     
     
         # Rotas do administrador

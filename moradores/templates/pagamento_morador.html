@@ -1,0 +1,44 @@
+{% extends 'base_morador.html' %} {# pode ser diferente de base_admin.html #}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+            <h2 class="mb-0">Fazer Pagamento</h2>
+        </div>
+        <div class="card-body">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label fw-bold">Valor (MZN)</label>
+                        {{ form.valor }}
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label fw-bold">Data do Pagamento</label>
+                        {{ form.data_pagamento }}
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label fw-bold">Categoria</label>
+                        {{ form.categoria }}
+                    </div>
+                    <div class="mb-3 col-md-12">
+                        <label class="form-label fw-bold">Descrição</label>
+                        {{ form.descricao }}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Enviar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

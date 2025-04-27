@@ -1,4 +1,5 @@
 from django import forms
+from pagamentos.models import Pagamento
 from .models import Morador
 
 class MoradorForm(forms.ModelForm):
@@ -27,8 +28,21 @@ class MoradorForm(forms.ModelForm):
         if Morador.objects.filter(nr_casa=nr_casa).exists():
             self.add_error("nr_casa", "Já existe um morador nesta casa.")
 
+        if len(password)>=8:
+            self.add_error("password", "A Password Deve ter no minimo 8 caracteres.")
+            
         # 🚨 Valida a senha (confirmar senha)
         if password and confirm_password and password != confirm_password:
             self.add_error("confirm_password", "As senhas não coincidem.")
 
         return cleaned_data
+
+class PagamentoForm(forms.ModelForm):
+    class Meta:
+        model = Pagamento
+        fields = ['morador', 'valor', 'data_pagamento', 'categoria', 'descricao', 'is_despesa_condominio']
+
+        widgets = {
+            'data_pagamento': forms.DateInput(attrs={'type': 'date'}),
+            'descricao': forms.Textarea(attrs={'rows': 3}),
+        }

@@ -28,7 +28,7 @@ def register_user(request):
 
 def login_view(request):
     if request.method == "POST":
-        username = request.POST.get("usuario")  # Usa "usuario", mas precisa ser "username"
+        username = request.POST.get("usuario").lower()  # Usa "usuario", mas precisa ser "username"
         password = request.POST.get("password")
 
         user = authenticate(request, username=username, password=password)  # Mantém "username"

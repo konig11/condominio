@@ -82,7 +82,7 @@ def criar_morador(request):
             morador = form.save(commit=False)
 
             # Criar usuário associado ao morador
-            username = request.POST.get('username')
+            username = request.POST.get('nome').lower()
             password = request.POST.get('password')
 
             if username and password:

@@ -3,7 +3,8 @@
 <div class="container mt-4">
     <h2 class="mb-4">Painel do Morador</h2>
     <div class="row">
-        <div class="col-md-6">
+        <!-- Reservas -->
+        <div class="col-md-4">
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">📅 Reservas das Áreas Sociais</div>
                 <div class="card-body text-center">
@@ -13,12 +14,24 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <!-- Finanças -->
+        <div class="col-md-4">
             <div class="card shadow-sm">
                 <div class="card-header bg-success text-white">💰 Situação Financeira</div>
                 <div class="card-body text-center">
                     <p>Veja seu saldo e pagamentos no condomínio.</p>
                     <a href="{% url 'saldo_condominio' %}" class="btn btn-success">Ver Finanças</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagamento -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-white">💳 Fazer Pagamento</div>
+                <div class="card-body text-center">
+                    <p>Realize o pagamento da sua quota de forma simples e rápida.</p>
+                    <a href="{% url 'pagamento_morador' %}" class="btn btn-warning text-white">Pagar Agora</a>
                 </div>
             </div>
         </div>

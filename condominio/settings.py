@@ -142,6 +142,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 
+LOGIN_URL = '/login'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
