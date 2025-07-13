@@ -25,11 +25,19 @@ def saldo_condominio(request):
     else:
         template_name = "base_morador.html"
     # Coletar dados para gráfico de pizza
-    categorias = list(Pagamento.objects.values_list('categoria', flat=True).distinct())
+  # Filtra as categorias únicas onde is_despesa_condominio = 0
+    categorias = list(
+        Pagamento.objects.filter(is_despesa_condominio=1)
+        .values_list('categoria', flat=True)
+        .distinct()
+        )
+
+# Soma os valores por categoria com o mesmo filtro
     valores = [
-        Pagamento.objects.filter(categoria=cat).aggregate(Sum("valor"))["valor__sum"] or Decimal(0) 
+        Pagamento.objects.filter(is_despesa_condominio=1, categoria=cat)
+        .aggregate(Sum("valor"))["valor__sum"] or Decimal(0)
         for cat in categorias
-    ]
+         ]
 
     # Transformar listas em JSON para usar no template, convertendo Decimal para float
     categorias_json = json.dumps(categorias)

@@ -1,6 +1,7 @@
 from django import forms
 from pagamentos.models import Pagamento
-from .models import Morador
+from .models import Morador, Mensagem
+from django.contrib.auth.models import User
 
 class MoradorForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, required=True, label="Senha")
@@ -25,10 +26,12 @@ class MoradorForm(forms.ModelForm):
         if Morador.objects.filter(telefone=telefone).exists():
             self.add_error("telefone", "Este telefone já está cadastrado.")
 
+        if nr_casa>94:
+            self.add_error("Excedeu o numero de casas")
         if Morador.objects.filter(nr_casa=nr_casa).exists():
             self.add_error("nr_casa", "Já existe um morador nesta casa.")
 
-        if len(password)>=8:
+        if len(password)<8:
             self.add_error("password", "A Password Deve ter no minimo 8 caracteres.")
             
         # 🚨 Valida a senha (confirmar senha)
@@ -46,3 +49,23 @@ class PagamentoForm(forms.ModelForm):
             'data_pagamento': forms.DateInput(attrs={'type': 'date'}),
             'descricao': forms.Textarea(attrs={'rows': 3}),
         }
+
+class MensagemForm(forms.ModelForm):
+    enviar_para_todos = forms.BooleanField(required=False, label="Enviar para todos os moradores")
+
+    class Meta:
+        model = Mensagem
+        fields = ['destinatario', 'assunto', 'corpo', 'enviar_para_todos']
+
+    def save(self, remetente=None, commit=True):
+        mensagem = super().save(commit=False)
+        if not remetente:
+            raise ValueError("O remetente deve ser informado.")
+        mensagem.remetente = remetente
+
+        if self.cleaned_data['enviar_para_todos']:
+            mensagem.destinatario = None  # mensagem para todos
+
+        if commit:
+            mensagem.save()
+        return mensagem

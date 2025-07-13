@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'usuarios',
     'moradores',
     'pagamentos',
+    'porteiro',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +57,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'condominio.urls'
 
 TEMPLATES = [
+    
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
@@ -66,9 +68,11 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'moradores.context_processors.mensagens_nao_lidas',
             ],
         },
     },
+      
 ]
 
 WSGI_APPLICATION = 'condominio.wsgi.application'

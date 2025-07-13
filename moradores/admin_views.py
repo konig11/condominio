@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
-from .models import Reserva
+from .models import Reserva,Mensagem
 from django.contrib.auth.models import User
 from .models import Morador
-from .forms import MoradorForm  # Vamos criar esse formulário a seguir
+from .forms import MoradorForm,MensagemForm  # Vamos criar esse formulário a seguir
 
 
 @login_required
@@ -18,8 +18,6 @@ def is_admin(user):
 @login_required
 def menu_morador(request):
     return render(request, "admin/menu_morador.html")
-
-
 
 
 @login_required
@@ -51,16 +49,33 @@ def aprovar_reserva(request, reserva_id):
     reserva = get_object_or_404(Reserva, id=reserva_id)
     reserva.status = "Aprovado"
     reserva.save()
+
+    # Enviar mensagem ao morador
+    Mensagem.objects.create(
+        remetente=request.user,
+        destinatario=reserva.morador,
+        assunto="Reserva de área social aprovada",
+        corpo=f"Sua reserva para {reserva.area_social} na data {reserva.data} foi aprovada."
+    )
+
     messages.success(request, "Reserva aprovada com sucesso!")
     return redirect("lista_reservas")
 
-# Rejeitar reserva
 @login_required
 @user_passes_test(is_admin)
 def rejeitar_reserva(request, reserva_id):
     reserva = get_object_or_404(Reserva, id=reserva_id)
     reserva.status = "Rejeitado"
     reserva.save()
+
+    # Enviar mensagem ao morador
+    Mensagem.objects.create(
+        remetente=request.user,
+        destinatario=reserva.morador,
+        assunto="Reserva de área social rejeitada",
+        corpo=f"Sua reserva para {reserva.area_social} na data {reserva.data} foi rejeitada."
+    )
+
     messages.error(request, "Reserva rejeitada.")
     return redirect("lista_reservas")
 
@@ -127,3 +142,22 @@ def excluir_morador(request, morador_id):
     morador.delete()
     messages.success(request, "Morador excluído com sucesso!")
     return redirect('listar_moradores')
+
+@login_required
+@user_passes_test(is_admin)
+def lista_mensagens(request):
+    mensagens = Mensagem.objects.all().order_by('-data_envio')
+    return render(request, 'admin/listar_mensagens.html', {'mensagens': mensagens})
+
+@login_required
+@user_passes_test(is_admin)
+def enviar_mensagem(request):
+    if request.method == 'POST':
+        form = MensagemForm(request.POST)
+        if form.is_valid():
+            form.save(remetente=request.user)  # ✅ passa o usuário
+            messages.success(request, 'Mensagem enviada com sucesso!')
+            return redirect('listar_mensagens')
+    else:
+        form = MensagemForm()
+    return render(request, 'admin/enviar_mensagem.html', {'form': form})

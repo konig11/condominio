@@ -21,12 +21,26 @@
         <!-- Listar Moradores -->
         <div class="col-md-4">
             <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white text-center">
+                <div class="card-header bg-danger text-white text-center">
                     <h5>Listar Moradores</h5>
                 </div>
                 <div class="card-body text-center">
                     <p>Veja todos os moradores cadastrados.</p>
-                    <a href="{% url 'listar_moradores' %}" class="btn btn-primary">Listar</a>
+                    <a href="{% url 'listar_moradores' %}" class="btn btn-danger">Listar</a>
+                </div>
+            </div>
+        </div>
+
+
+    <!-- Emiter Mensagens -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white text-center">
+                    <h5>Gerir Mensagens</h5>
+                </div>
+                <div class="card-body text-center">
+                    <p>Veja todas mensagens emitidas.</p>
+                    <a href="{% url 'listar_mensagens' %}" class="btn btn-primary">Listar</a>
                 </div>
             </div>
         </div>

@@ -1,5 +1,15 @@
 {% extends 'base_morador.html' %}
 {% block content %}
+
+ <a href="{% url 'minhas_mensagens' %}" style="position: relative; display: inline-block;">
+  <i class="fas fa-envelope fa-2x"></i>
+  {% if mensagens_nao_lidas > 0 %}
+    <span class="badge bg-danger"
+          style="position: absolute; top: -3px; right: -6px; font-size: 0.7rem;">
+      {{ mensagens_nao_lidas }}
+    </span>
+  {% endif %}
+</a>
 <div class="container mt-4">
     <h2 class="mb-4">Painel do Morador</h2>
     <div class="row">

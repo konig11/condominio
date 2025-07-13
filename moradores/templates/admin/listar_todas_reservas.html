@@ -18,7 +18,7 @@
             <tbody>
                 {% for reserva in reservas_pendentes %}
                 <tr>
-                    <td>{{ reserva.morador.username }}</td>
+                    <td>{{ reserva.morador.nome }}</td>
                     <td>{{ reserva.area_social }}</td>
                     <td>{{ reserva.data }}</td>
                     <td>{{ reserva.hora_inicio }} - {{ reserva.hora_fim }}</td>

@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Morador
+from .models import Morador, MensagemLida
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Reserva, AreaSocial
+from .models import Reserva, AreaSocial, Mensagem
 from django.utils.timezone import now
-
+from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from .models import Morador  # ou como estiver o nome
 from .forms import PagamentoForm
+from django.http import HttpResponseForbidden, JsonResponse
 
 @login_required
 def pagamento_morador(request):
@@ -137,3 +138,42 @@ def reservas_morador(request):
 
 def situacao_financeira(request):
     return redirect("saldo_condominio")
+
+
+def minhas_mensagens(request):
+    morador = Morador.objects.get(usuario=request.user)
+    mensagens = Mensagem.objects.filter(
+        Q(destinatario=morador) | Q(destinatario__isnull=True)
+    ).order_by('-data_envio')
+
+    # Para cada mensagem geral (destinatario=None) não lida pelo morador, registre a leitura
+    for mensagem in mensagens:
+        if mensagem.destinatario is None:
+            # Mensagem geral
+            MensagemLida.objects.get_or_create(morador=morador, mensagem=mensagem)
+        else:
+            # Mensagem direta
+            if not mensagem.lida:
+                mensagem.lida = True
+                mensagem.save()
+
+    return render(request, 'minhas_mensagens.html', {'mensagens': mensagens})
+
+@login_required
+def apagar_mensagem(request, mensagem_id):
+    morador = Morador.objects.get(usuario=request.user)
+    mensagem = get_object_or_404(Mensagem, id=mensagem_id)
+    
+    if mensagem.destinatario != morador:
+        return HttpResponseForbidden("Você não tem permissão para apagar esta mensagem.")
+    
+    mensagem.delete()
+    return redirect('minhas_mensagens')
+
+# @login_required
+# def contar_mensagens_nao_lidas(request):
+#     count = Mensagem.objects.filter(
+#         Q(destinatario=request.user) | Q(destinatario__isnull=True),
+#         lida=False
+#     ).count()
+#     return JsonResponse({'nao_lidas': count})

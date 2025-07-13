@@ -1,0 +1,65 @@
+{% extends 'base_admin.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>✉️ Enviar Nova Mensagem</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            {{ form.destinatario.label_tag }}
+            {{ form.destinatario }}
+            {% if form.destinatario.errors %}
+                <div class="text-danger">{{ form.destinatario.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.assunto.label_tag }}
+            {{ form.assunto }}
+            {% if form.assunto.errors %}
+                <div class="text-danger">{{ form.assunto.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.corpo.label_tag }}
+            {{ form.corpo }}
+            {% if form.corpo.errors %}
+                <div class="text-danger">{{ form.corpo.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-check mb-3">
+            {{ form.enviar_para_todos }}
+            {{ form.enviar_para_todos.label_tag }}
+        </div>
+
+        <button type="submit" class="btn btn-success">Enviar</button>
+        <a href="{% url 'listar_mensagens' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+<!-- Script para desabilitar campo destinatário -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkbox = document.getElementById("id_enviar_para_todos");
+        const destinatario = document.getElementById("id_destinatario");
+
+        function toggleDestinatario() {
+            if (checkbox.checked) {
+                destinatario.disabled = true;
+                destinatario.value = "";  // limpa seleção se for desabilitado
+            } else {
+                destinatario.disabled = false;
+            }
+        }
+
+        // Executa ao carregar a página
+        toggleDestinatario();
+
+        // Executa sempre que clicar na checkbox
+        checkbox.addEventListener('change', toggleDestinatario);
+    });
+</script>
+{% endblock %}

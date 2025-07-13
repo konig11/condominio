@@ -1,0 +1,39 @@
+{% extends "base_porteiro.html" %}
+{% block content %}
+<h2>Visitas do Dia</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Visitante</th>
+      <th>Morador</th>
+      <th>Agendada</th>
+      <th>Entrada</th>
+      <th>Saída</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for visita in visitas %}
+      <tr>
+        <td>{{ visita.nome_visitante }}</td>
+        <td>{{ visita.morador }}</td>
+        <td>{{ visita.data_agendada|date:"d/m/Y H:i" }}</td>
+        <td>{{ visita.entrada_registrada|default:"-" }}</td>
+        <td>{{ visita.saida_registrada|default:"-" }}</td>
+        <td>
+          {% if not visita.entrada_registrada %}
+            <a href="{% url 'registrar_entrada' visita.id %}" class="btn btn-sm btn-success">Registrar Entrada</a>
+          {% elif not visita.saida_registrada %}
+            <a href="{% url 'registrar_saida' visita.id %}" class="btn btn-sm btn-danger">Registrar Saída</a>
+          {% else %}
+            Concluída
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6">Nenhuma visita agendada hoje.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

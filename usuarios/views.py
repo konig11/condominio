@@ -48,4 +48,5 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
+    list(messages.get_messages(request)) 
     return redirect("login")  # Redireciona para a página de login

@@ -1,0 +1,31 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>📬 Todas as Mensagens</h2>
+    <a href="{% url 'enviar_mensagem' %}" class="btn btn-primary mb-3">Nova Mensagem</a>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Remetente</th>
+                <th>Destinatário</th>
+                <th>Assunto</th>
+                <th>Data</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for msg in mensagens %}
+                <tr>
+                    <td>{{ msg.remetente.username }}</td>
+                    <td>  {% if msg.destinatario.nome %}{{ msg.destinatario.nome }}{% else %}Todos{% endif %}</td>
+                    <td>{{ msg.assunto }}</td>
+                    <td>{{ msg.data_envio|date:"d/m/Y H:i" }}</td>
+                    <td>{% if msg.lida and msg.destinatario.nome %}✅ Lida{% elif msg.destinatario.nome %}📭 Não Lida{% else %}Indisponivel{% endif %}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5">Nenhuma mensagem encontrada.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
