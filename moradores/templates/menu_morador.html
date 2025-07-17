@@ -45,6 +45,20 @@
                 </div>
             </div>
         </div>
+<!-- Visitas -->
+<div class="col-md-4 mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-info text-white">👥 Visitas</div>
+        <div class="card-body text-center">
+            <p>Agende e acompanhe suas visitas.</p>
+            <a href="{% url 'listar_visitas_morador' %}" class="btn btn-info text-white">Minhas Visitas</a>
+            <br><br>
+            <a href="{% url 'agendar_visita' %}" class="btn btn-outline-info">Agendar Nova Visita</a>
+        </div>
+    </div>
+</div>
+
+
     </div>
 </div>
 {% endblock %}

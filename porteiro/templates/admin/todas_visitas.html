@@ -1,0 +1,60 @@
+{% extends "base_admin.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>📋 Todas as Visitas</h2>
+
+    <form method="get" class="row g-3 mb-3">
+        <div class="col-md-3">
+            <input type="date" name="data" value="{{ request.GET.data }}" class="form-control" placeholder="Data">
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="morador" value="{{ request.GET.morador }}" class="form-control" placeholder="Morador">
+        </div>
+        <div class="col-md-3">
+            <select name="status" class="form-select">
+                <option value="">Todos os Status</option>
+                <option value="pendente" {% if request.GET.status == "pendente" %}selected{% endif %}>Pendente</option>
+                <option value="concluida" {% if request.GET.status == "concluida" %}selected{% endif %}>Concluída</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Visitante</th>
+                <th>Morador</th>
+                <th>Data Agendada</th>
+                <th>Entrada</th>
+                <th>Saída</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for visita in visitas %}
+                <tr>
+                    <td>{{ visita.nome_visitante }}</td>
+                    <td>{{ visita.morador }}</td>
+                    <td>{{ visita.data_agendada|date:"d/m/Y H:i" }}</td>
+                    <td>{{ visita.entrada_registrada|default:"-" }}</td>
+                    <td>{{ visita.saida_registrada|default:"-" }}</td>
+                    <td>
+                        {% if visita.saida_registrada %}
+                            <span class="badge bg-secondary">Concluída</span>
+                        {% elif visita.entrada_registrada %}
+                            <span class="badge bg-warning text-dark">Em andamento</span>
+                        {% else %}
+                            <span class="badge bg-info text-dark">Pendente</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="6">Nenhuma visita encontrada.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

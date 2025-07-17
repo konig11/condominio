@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User  # Importa o modelo padrão do Django
+from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import HttpResponse
@@ -26,25 +27,33 @@ def register_user(request):
 
     return render(request, 'usuario/register_user.html')
 
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import Group
+
 def login_view(request):
     if request.method == "POST":
-        username = request.POST.get("usuario").lower()  # Usa "usuario", mas precisa ser "username"
+        username = request.POST.get("usuario").lower()
         password = request.POST.get("password")
 
-        user = authenticate(request, username=username, password=password)  # Mantém "username"
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            
-            # Direciona para menus diferentes dependendo se é admin ou morador
+
+            # Redirecionamento baseado no tipo de usuário
             if user.is_staff:
-                return redirect("menu_admin")  
+                return redirect("menu_admin")
+            elif user.groups.filter(name="Porteiro").exists():
+                return redirect("menu_porteiro")
             else:
-                return redirect("menu_morado")  
+                return redirect("menu_morado")
 
         else:
             messages.error(request, "O nome de usuário e/ou a senha estão incorretos")
 
     return render(request, "usuario/login_user.html")
+
 
 def logout_view(request):
     logout(request)

@@ -1,0 +1,49 @@
+{% extends "base_morador.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Minhas Visitas</h2>
+
+    <form method="get" class="row g-3 mb-3">
+        <div class="col-md-4">
+            <input type="date" name="data" value="{{ data }}" class="form-control" placeholder="Filtrar por data">
+        </div>
+        <div class="col-md-4">
+            <select name="status" class="form-select">
+                <option value="">Todas</option>
+                <option value="pendente" {% if status == "pendente" %}selected{% endif %}>Pendentes</option>
+                <option value="concluida" {% if status == "concluida" %}selected{% endif %}>Concluídas</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary" type="submit">Filtrar</button>
+        </div>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Visitante</th>
+                <th>Documento</th>
+                <th>Data Agendada</th>
+                <th>Entrada</th>
+                <th>Saída</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for visita in visitas %}
+                <tr>
+                    <td>{{ visita.nome_visitante }}</td>
+                    <td>{{ visita.documento|default:"-" }}</td>
+                    <td>{{ visita.data_agendada|date:"d/m/Y H:i" }}</td>
+                    <td>{{ visita.entrada_registrada|default:"-" }}</td>
+                    <td>{{ visita.saida_registrada|default:"-" }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">Nenhuma visita encontrada.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

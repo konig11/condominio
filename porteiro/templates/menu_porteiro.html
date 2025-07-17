@@ -1,0 +1,37 @@
+{% extends 'base_porteiro.html' %}
+{% block content %}
+
+{% comment %} <a href="{% url 'visitas_hoje' %}" style="position: relative; display: inline-block;">
+  <i class="fas fa-door-open fa-2x"></i>
+</a> {% endcomment %}
+
+<div class="container mt-4">
+  <h2 class="mb-4">Painel do Porteiro</h2>
+  <div class="row">
+    
+    <!-- Visitas do Dia -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-info text-white">📋 Visitas do Dia</div>
+        <div class="card-body text-center">
+          <p>Visualize e registre as visitas agendadas para hoje.</p>
+          <a href="{% url 'lista_visitas' %}" class="btn btn-info text-white">Ver Visitas</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Histórico de Visitas -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white">📖 Histórico de Visitas</div>
+        <div class="card-body text-center">
+          <p>Consulte todas as visitas registradas no condomínio.</p>
+          <a href="{% url 'lista_visitas' %}" class="btn btn-secondary">Ver Histórico</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

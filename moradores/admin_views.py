@@ -34,6 +34,9 @@ def lista_todas_reservas(request):
 def saldo_condominio(request):
     return redirect('saldo_condominio')
 
+@login_required
+def menu_porteiro(request):
+    return redirect('menu_porteiro')
 
 # Página para listar todas as reservas pendentes
 @login_required

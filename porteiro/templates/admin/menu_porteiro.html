@@ -1,0 +1,42 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Painel do Porteiro (Admin)</h2>
+    <div class="row">
+        <!-- Histórico de Entradas e Saídas -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">🚪 Entradas e Saídas</div>
+                <div class="card-body text-center">
+                    <p>Veja o histórico completo de entradas e saídas registradas pelo porteiro.</p>
+                    <a href="{% url 'historico_entradas_saidas' %}" class="btn btn-info">Ver Histórico</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visitas -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white">👥 Visitas Agendadas</div>
+                <div class="card-body text-center">
+                    <p>Consulte todas as visitas agendadas pelos moradores.</p>
+                    <a href="{% url 'todas_visitas' %}" class="btn btn-secondary">Ver Visitas</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gestão de Porteiros -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">👮‍♂️ Porteiros</div>
+                <div class="card-body text-center">
+                    <p>Crie e gerencie contas de porteiros.</p>
+                    <a href="{% url 'listar_porteiros' %}" class="btn btn-dark">Gerenciar Porteiros</a><br>
+                    <a href="{% url 'criar_porteiro' %}" class="btn btn-outline-dark mt-2">Novo Porteiro</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

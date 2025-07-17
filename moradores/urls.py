@@ -15,6 +15,8 @@ urlpatterns = [
     path("reservas/minhas-reservas/", views.minhas_reservas, name="minhas_reservas"),
     path('reservas/historico/', views.historico_reservas, name='historico_reservas'),
     path('meu-pagamento/', views.pagamento_morador, name='pagamento_morador'),
+    path('agendar-visita/', views.agendar_visita, name='agendar_visita'),
+    path('minhas-visitas/', views.listar_visitas_morador, name='listar_visitas_morador'),
     
     
         # Rotas do administrador

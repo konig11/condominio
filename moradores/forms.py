@@ -1,5 +1,6 @@
 from django import forms
 from pagamentos.models import Pagamento
+from porteiro.models import Visita
 from .models import Morador, Mensagem
 from django.contrib.auth.models import User
 
@@ -69,3 +70,11 @@ class MensagemForm(forms.ModelForm):
         if commit:
             mensagem.save()
         return mensagem
+class AgendarVisitaForm(forms.ModelForm):
+    class Meta:
+        model = Visita
+        fields = ['nome_visitante', 'documento', 'data_agendada', 'observacoes']
+        widgets = {
+            'data_agendada': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'observacoes': forms.Textarea(attrs={'rows': 3}),
+        }

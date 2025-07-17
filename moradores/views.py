@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.dateparse import parse_date
+from porteiro.models import Visita
 from .models import Morador, MensagemLida
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -7,7 +9,7 @@ from django.utils.timezone import now
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from .models import Morador  # ou como estiver o nome
-from .forms import PagamentoForm
+from .forms import AgendarVisitaForm, PagamentoForm
 from django.http import HttpResponseForbidden, JsonResponse
 
 @login_required
@@ -177,3 +179,51 @@ def apagar_mensagem(request, mensagem_id):
 #         lida=False
 #     ).count()
 #     return JsonResponse({'nao_lidas': count})
+
+@login_required
+def agendar_visita(request):
+    try:
+        morador = Morador.objects.get(usuario=request.user)
+    except Morador.DoesNotExist:
+        messages.error(request, "Você não está associado a um morador.")
+        return redirect('menu_morador')  # ou outra página segura
+
+    if request.method == 'POST':
+        form = AgendarVisitaForm(request.POST)
+        if form.is_valid():
+            visita = form.save(commit=False)
+            visita.morador = morador
+            visita.save()
+            messages.success(request, 'Visita agendada com sucesso.')
+            return redirect('listar_visitas_morador')
+    else:
+        form = AgendarVisitaForm()
+    return render(request, 'agendar_visita.html', {'form': form})
+
+
+@login_required
+def listar_visitas_morador(request):
+    try:
+        morador = Morador.objects.get(usuario=request.user)
+    except Morador.DoesNotExist:
+        messages.error(request, "Você não está associado a um morador.")
+        return redirect('menu_morador')
+
+    visitas = Visita.objects.filter(morador=morador).order_by('-data_agendada')
+
+    # Filtros opcionais
+    data = request.GET.get('data')
+    status = request.GET.get('status')
+
+    if data:
+        visitas = visitas.filter(data_agendada__date=parse_date(data))
+    if status == 'pendente':
+        visitas = visitas.filter(entrada_registrada__isnull=True)
+    elif status == 'concluida':
+        visitas = visitas.filter(saida_registrada__isnull=False)
+
+    return render(request, 'listar_visitas.html', {
+        'visitas': visitas,
+        'data': data,
+        'status': status,
+    })

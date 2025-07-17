@@ -1,0 +1,28 @@
+{% extends "base_admin.html" %}
+{% block content %}
+<h2>📜 Histórico de Entradas e Saídas</h2>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Visitante</th>
+      <th>Morador</th>
+      <th>Entrada</th>
+      <th>Saída</th>
+      <th>Registrado por</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for registro in registros %}
+    <tr>
+      <td>{{ registro.visita.nome_visitante }}</td>
+      <td>{{ registro.visita.morador }}</td>
+      <td>{{ registro.entrada|default:"-" }}</td>
+      <td>{{ registro.saida|default:"-" }}</td>
+      <td>{{ registro.registrado_por }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">Nenhum registro encontrado.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

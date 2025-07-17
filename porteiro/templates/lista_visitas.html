@@ -1,7 +1,9 @@
 {% extends "base_porteiro.html" %}
 {% block content %}
 <h2>Visitas do Dia</h2>
-
+<a href="{% url 'registrar_visita_na_hora' %}" class="btn btn-primary mb-3">
+    Registrar Visita Sem Agendamento
+</a>
 <table class="table table-striped">
   <thead>
     <tr>
